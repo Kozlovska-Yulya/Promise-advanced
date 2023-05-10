@@ -1,14 +1,17 @@
 export const getUsersBlogs = async (users) => {
   try {
-    const response = await fetch(`https://api.github.com/users/${users}`);
-    return response.json();
+    const requests = users.map((user) =>
+      fetch(`https://api.github.com/users/${user}`)
+    );
+    const userData = await Promise.all(requests);
+    return response.json(userData);
   } catch (err) {
     console.log(err);
   }
 };
 
-// // examples
-// getUsersBlogs(['google', 'facebook', 'reactjs']).then((linksList) =>
-//   console.log(linksList)
-// ); // ==> ["https://opensource.google/", "https://opensource.fb.com", "https://reactjs.org"]
-// getUsersBlogs(['microsoft']).then((linksList) => console.log(linksList)); // ==> ["https://opensource.microsoft.com"]
+// examples
+getUsersBlogs(['google', 'facebook', 'reactjs']).then((linksList) =>
+  console.log(linksList)
+); // ==> ["https://opensource.google/", "https://opensource.fb.com", "https://reactjs.org"]
+getUsersBlogs(['microsoft']).then((linksList) => console.log(linksList)); // ==> ["https://opensource.microsoft.com"]
